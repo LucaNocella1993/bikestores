@@ -1,0 +1,686 @@
+swagger: '2.0'
+info:
+  description: Bikestores API reference for developers
+  version: '1.0'
+  title: Bikestores API
+  contact:
+    name: Luca Nocella
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0
+host: localhost:8080
+tags:
+  - name: bikestores-controller
+    description: Bikestores Controller
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /bikestores/test/customer:
+    post:
+      tags:
+        - bikestores-controller
+      summary: createCustomer
+      operationId: createCustomerUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: customerDTO
+          description: customerDTO
+          required: true
+          schema:
+            $ref: '#/definitions/CustomerDTOReq'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CustomerDTORes'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /bikestores/test/customer/{id}:
+    get:
+      tags:
+        - bikestores-controller
+      summary: readCustomerById
+      operationId: readCustomerByIdUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CustomerDTORes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - bikestores-controller
+      summary: updateCustomer
+      operationId: updateCustomerUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: customerDTO
+          description: customerDTO
+          required: true
+          schema:
+            $ref: '#/definitions/CustomerDTOReq'
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CustomerDTORes'
+        '201':
+          description: Created
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - bikestores-controller
+      summary: deleteCustomer
+      operationId: deleteCustomerUsingDELETE
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /bikestores/test/customerName/{id}:
+    patch:
+      tags:
+        - bikestores-controller
+      summary: updateNameCustomer
+      operationId: updateNameCustomerUsingPATCH
+      produces:
+        - application/json
+      parameters:
+        - name: cognome
+          in: header
+          description: cognome
+          required: true
+          type: string
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: string
+        - name: name
+          in: query
+          description: name
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CustomerDTORes'
+        '204':
+          description: No Content
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /bikestores/test/customerWithParams:
+    get:
+      tags:
+        - bikestores-controller
+      summary: readCustomerByIdWithParams
+      operationId: readCustomerByIdWithParamsUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: query
+          description: id
+          required: false
+          type: string
+          default: '1'
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CustomerDTORes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /bikestores/test/customers:
+    get:
+      tags:
+        - bikestores-controller
+      summary: readCustomers
+      operationId: readCustomersUsingGET
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CustomerDTORes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /bikestores/test/customersConsumingRest:
+    get:
+      tags:
+        - bikestores-controller
+      summary: readCustomersConsumingRest
+      operationId: readCustomersConsumingRestUsingGET
+      produces:
+        - application/json
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CustomerDTORes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+definitions:
+  Brand:
+    type: object
+    properties:
+      brandId:
+        type: integer
+        format: int32
+      brandName:
+        type: string
+      products:
+        type: array
+        items:
+          $ref: '#/definitions/ProductReq'
+    title: Brand
+  Category:
+    type: object
+    properties:
+      categoryId:
+        type: integer
+        format: int32
+      categoryName:
+        type: string
+      products:
+        type: array
+        items:
+          $ref: '#/definitions/ProductReq'
+    title: Category
+  CustomerDTOReq:
+    type: object
+    properties:
+      city:
+        type: string
+      customerId:
+        type: integer
+        format: int32
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      orders:
+        type: array
+        items:
+          $ref: '#/definitions/OrderReq'
+      phone:
+        type: string
+      state:
+        type: string
+      street:
+        type: string
+      zipCode:
+        type: string
+    title: CustomerDTOReq
+  CustomerDTORes:
+    type: object
+    properties:
+      city:
+        type: string
+      customerId:
+        type: integer
+        format: int32
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      orders:
+        type: array
+        items:
+          $ref: '#/definitions/OrderRes'
+      phone:
+        type: string
+      state:
+        type: string
+      street:
+        type: string
+      zipCode:
+        type: string
+    title: CustomerDTORes
+  CustomerReq:
+    type: object
+    properties:
+      city:
+        type: string
+      customerId:
+        type: integer
+        format: int64
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      orders:
+        type: array
+        items:
+          $ref: '#/definitions/OrderReq'
+      phone:
+        type: string
+      state:
+        type: string
+      street:
+        type: string
+      zipCode:
+        type: string
+    title: CustomerReq
+  CustomerRes:
+    type: object
+    properties:
+      city:
+        type: string
+      customerId:
+        type: integer
+        format: int64
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      orders:
+        type: array
+        items:
+          $ref: '#/definitions/OrderRes'
+      phone:
+        type: string
+      state:
+        type: string
+      street:
+        type: string
+      zipCode:
+        type: string
+    title: CustomerRes
+  OrderItemReq:
+    type: object
+    properties:
+      discount:
+        type: number
+      listPrice:
+        type: number
+      order:
+        $ref: '#/definitions/OrderReq'
+      product:
+        $ref: '#/definitions/ProductReq'
+      quantity:
+        type: integer
+        format: int32
+    title: OrderItemReq
+  OrderItemRes:
+    type: object
+    properties:
+      discount:
+        type: number
+      listPrice:
+        type: number
+      order:
+        $ref: '#/definitions/OrderRes'
+      product:
+        $ref: '#/definitions/ProductRes'
+      quantity:
+        type: integer
+        format: int32
+    title: OrderItemRes
+  OrderReq:
+    type: object
+    properties:
+      customer:
+        $ref: '#/definitions/CustomerReq'
+      orderDate:
+        $ref: '#/definitions/Timestamp'
+      orderId:
+        type: integer
+        format: int32
+      orderItems:
+        type: array
+        items:
+          $ref: '#/definitions/OrderItemReq'
+      orderStatus:
+        type: integer
+        format: int32
+      requiredDate:
+        $ref: '#/definitions/Timestamp'
+      shippedDate:
+        $ref: '#/definitions/Timestamp'
+      staff:
+        $ref: '#/definitions/StaffReq'
+      store:
+        $ref: '#/definitions/StoreReq'
+    title: OrderReq
+  OrderRes:
+    type: object
+    properties:
+      customer:
+        $ref: '#/definitions/CustomerRes'
+      orderDate:
+        type: object
+      orderId:
+        type: integer
+        format: int32
+      orderItems:
+        type: array
+        items:
+          $ref: '#/definitions/OrderItemRes'
+      orderStatus:
+        type: integer
+        format: int32
+      requiredDate:
+        type: object
+      shippedDate:
+        type: object
+      staff:
+        $ref: '#/definitions/StaffRes'
+      store:
+        $ref: '#/definitions/StoreRes'
+    title: OrderRes
+  ProductReq:
+    type: object
+    properties:
+      brand:
+        $ref: '#/definitions/Brand'
+      category:
+        $ref: '#/definitions/Category'
+      listPrice:
+        type: number
+      modelYear:
+        type: integer
+        format: int32
+      orderItems:
+        type: array
+        items:
+          $ref: '#/definitions/OrderItemReq'
+      productId:
+        type: integer
+        format: int32
+      productName:
+        type: string
+      stocks:
+        type: array
+        items:
+          $ref: '#/definitions/StockReq'
+    title: ProductReq
+  ProductRes:
+    type: object
+    properties:
+      brand:
+        $ref: '#/definitions/Brand'
+      category:
+        $ref: '#/definitions/Category'
+      listPrice:
+        type: number
+      modelYear:
+        type: integer
+        format: int32
+      orderItems:
+        type: array
+        items:
+          $ref: '#/definitions/OrderItemRes'
+      productId:
+        type: integer
+        format: int32
+      productName:
+        type: string
+      stocks:
+        type: array
+        items:
+          $ref: '#/definitions/StockRes'
+    title: ProductRes
+  StaffReq:
+    type: object
+    properties:
+      active:
+        type: integer
+        format: int32
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      orders:
+        type: array
+        items:
+          $ref: '#/definitions/OrderReq'
+      phone:
+        type: string
+      staff:
+        $ref: '#/definitions/StaffReq'
+      staffId:
+        type: integer
+        format: int32
+      staffs:
+        type: array
+        items:
+          $ref: '#/definitions/StaffReq'
+      store:
+        $ref: '#/definitions/StoreReq'
+    title: StaffReq
+  StaffRes:
+    type: object
+    properties:
+      active:
+        type: integer
+        format: int32
+      email:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      orders:
+        type: array
+        items:
+          $ref: '#/definitions/OrderRes'
+      phone:
+        type: string
+      staff:
+        $ref: '#/definitions/StaffRes'
+      staffId:
+        type: integer
+        format: int32
+      staffs:
+        type: array
+        items:
+          $ref: '#/definitions/StaffRes'
+      store:
+        $ref: '#/definitions/StoreRes'
+    title: StaffRes
+  StockReq:
+    type: object
+    properties:
+      product:
+        $ref: '#/definitions/ProductReq'
+      quantity:
+        type: integer
+        format: int32
+      store:
+        $ref: '#/definitions/StoreReq'
+    title: StockReq
+  StockRes:
+    type: object
+    properties:
+      product:
+        $ref: '#/definitions/ProductRes'
+      quantity:
+        type: integer
+        format: int32
+      store:
+        $ref: '#/definitions/StoreRes'
+    title: StockRes
+  StoreReq:
+    type: object
+    properties:
+      city:
+        type: string
+      email:
+        type: string
+      orders:
+        type: array
+        items:
+          $ref: '#/definitions/OrderReq'
+      phone:
+        type: string
+      staffs:
+        type: array
+        items:
+          $ref: '#/definitions/StaffReq'
+      state:
+        type: string
+      stocks:
+        type: array
+        items:
+          $ref: '#/definitions/StockReq'
+      storeId:
+        type: integer
+        format: int32
+      storeName:
+        type: string
+      street:
+        type: string
+      zipCode:
+        type: string
+    title: StoreReq
+  StoreRes:
+    type: object
+    properties:
+      city:
+        type: string
+      email:
+        type: string
+      orders:
+        type: array
+        items:
+          $ref: '#/definitions/OrderRes'
+      phone:
+        type: string
+      staffs:
+        type: array
+        items:
+          $ref: '#/definitions/StaffRes'
+      state:
+        type: string
+      stocks:
+        type: array
+        items:
+          $ref: '#/definitions/StockRes'
+      storeId:
+        type: integer
+        format: int32
+      storeName:
+        type: string
+      street:
+        type: string
+      zipCode:
+        type: string
+    title: StoreRes
+  Timestamp:
+    type: object
+    properties:
+      date:
+        type: integer
+        format: int32
+      hours:
+        type: integer
+        format: int32
+      minutes:
+        type: integer
+        format: int32
+      month:
+        type: integer
+        format: int32
+      nanos:
+        type: integer
+        format: int32
+      seconds:
+        type: integer
+        format: int32
+      time:
+        type: integer
+        format: int64
+      year:
+        type: integer
+        format: int32
+    title: Timestamp

@@ -1,0 +1,202 @@
+{
+	"info": {
+		"_postman_id": "156757e3-05f6-4d0d-9fb3-1e50fd656be0",
+		"name": "bikestores",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Customers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{environment}}bikestores/test/customers",
+					"host": [
+						"{{environment}}bikestores"
+					],
+					"path": [
+						"test",
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CustomersConsumingRest",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{environment}}bikestores/test/customersConsumingRest",
+					"host": [
+						"{{environment}}bikestores"
+					],
+					"path": [
+						"test",
+						"customersConsumingRest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CustomerById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{environment}}bikestores/test/customer/1459",
+					"host": [
+						"{{environment}}bikestores"
+					],
+					"path": [
+						"test",
+						"customer",
+						"1459"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CustomerByIdWithParams",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{environment}}bikestores/test/customerWithParams?id=2",
+					"host": [
+						"{{environment}}bikestores"
+					],
+					"path": [
+						"test",
+						"customerWithParams"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createCustomer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"city\": \"Napoli\",\r\n    \"email\": \"prova@yahoo.com\",\r\n    \"firstName\": \"Luca\",\r\n    \"lastName\": \"Nocella\",\r\n    \"phone\": null,\r\n    \"state\": \"CA\",\r\n    \"street\": \"910 Vine Street \",\r\n    \"zipCode\": \"95008\",\r\n    \"orders\": null\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{environment}}bikestores/test/customer",
+					"host": [
+						"{{environment}}bikestores"
+					],
+					"path": [
+						"test",
+						"customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateCustomer",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"customerId\": 1458,\r\n        \"city\": \"Napoli\",\r\n        \"email\": \"prova@yahoo.com\",\r\n        \"firstName\": \"Luc\",\r\n        \"lastName\": \"Nocell\",\r\n        \"phone\": null,\r\n        \"state\": \"CA\",\r\n        \"street\": \"910 Vine Street \",\r\n        \"zipCode\": \"95008\",\r\n        \"orders\": null\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{environment}}bikestores/test/customer/1458",
+					"host": [
+						"{{environment}}bikestores"
+					],
+					"path": [
+						"test",
+						"customer",
+						"1458"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateCustomerName",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "cognome",
+						"value": "No",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{environment}}bikestores/test/customerName/1458?name=Lu",
+					"host": [
+						"{{environment}}bikestores"
+					],
+					"path": [
+						"test",
+						"customerName",
+						"1458"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Lu"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteCustomerById",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{environment}}bikestores/test/customer/1457",
+					"host": [
+						"{{environment}}bikestores"
+					],
+					"path": [
+						"test",
+						"customer",
+						"1457"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
