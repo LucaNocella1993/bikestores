@@ -1,4 +1,4 @@
-# BIKESTORE
+# BIKESTORES
 Boilerplate Microservice with Java 8 and Spring Boot with most part of all the basic configurations needed.
 
 Please note that this is only a boilerplate microservice, there is not a defined business, many configurations and developments are forced to show all the different features of Spring Boot.
