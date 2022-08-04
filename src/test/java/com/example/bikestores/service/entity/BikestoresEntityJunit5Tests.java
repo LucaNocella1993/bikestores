@@ -1,9 +1,11 @@
 package com.example.bikestores.service.entity;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -60,9 +62,109 @@ class BikestoresEntityJunit5Tests {
 		assertNotNull(customerDTOListResponse);
 	}
 
-	private List<Customer> buildCustomerList() {
-		List<Customer> customerList = new ArrayList<>();
+	@Test
+	void readCustomerByIdTest() {
+		Customer customer = buildCustomer();
+		Optional<Customer> optionalCustomer = Optional.ofNullable(customer);
+		List<CustomerDTO> customerDTOList = buildCustomerDTOList();
+		Mockito.when(customerRepository.findById(Mockito.anyLong())).thenReturn(optionalCustomer);
+		Mockito.when(customerToCustomerDTOConverter.convert(Mockito.any())).thenReturn(customerDTOList);
+		List<CustomerDTO> customerDTOListResponse = bikestoresEntity.readCustomersById("1");
+		assertNotNull(customerDTOListResponse);
+	}
+
+	@Test
+	void readCustomerByIdEmptyTest() {
+		Optional<Customer> optionalCustomer = Optional.ofNullable(null);
+		List<CustomerDTO> customerDTOList = buildCustomerDTOList();
+		Mockito.when(customerRepository.findById(Mockito.anyLong())).thenReturn(optionalCustomer);
+		Mockito.when(customerToCustomerDTOConverter.convert(Mockito.any())).thenReturn(customerDTOList);
+		List<CustomerDTO> customerDTOListResponse = bikestoresEntity.readCustomersById("1");
+		assertNotNull(customerDTOListResponse);
+	}
+
+	@Test
+	void createCustomerTest() {
+		Customer customer = buildCustomer();
+		List<CustomerDTO> customerDTOList = buildCustomerDTOList();
+		Mockito.when(customerRepository.save(Mockito.any())).thenReturn(customer);
+		Mockito.when(customerToCustomerDTOConverter.convert(Mockito.any())).thenReturn(customerDTOList);
+		List<CustomerDTO> customerDTOListResponse = bikestoresEntity.createCustomer(customer);
+		assertNotNull(customerDTOListResponse);
+	}
+
+	@Test
+	void deleteCustomerByIdTest() {
+		Customer customer = buildCustomer();
+		Optional<Customer> optionalCustomer = Optional.ofNullable(customer);
+		List<CustomerDTO> customerDTOList = buildCustomerDTOList();
+		Mockito.when(customerRepository.findById(Mockito.anyLong())).thenReturn(optionalCustomer);
+		Mockito.when(customerToCustomerDTOConverter.convert(Mockito.any())).thenReturn(customerDTOList);
+		assertDoesNotThrow(() -> bikestoresEntity.deleteCustomer("1"));
+	}
+
+	@Test
+	void deleteCustomerByIdEmptyTest() {
+		Optional<Customer> optionalCustomer = Optional.ofNullable(null);
+		List<CustomerDTO> customerDTOList = buildCustomerDTOList();
+		Mockito.when(customerRepository.findById(Mockito.anyLong())).thenReturn(optionalCustomer);
+		Mockito.when(customerToCustomerDTOConverter.convert(Mockito.any())).thenReturn(customerDTOList);
+		assertDoesNotThrow(() -> bikestoresEntity.deleteCustomer("1"));
+	}
+
+	@Test
+	void updateCustomerTest() {
+		Customer customer = buildCustomer();
+		Optional<Customer> optionalCustomer = Optional.ofNullable(customer);
+		List<CustomerDTO> customerDTOList = buildCustomerDTOList();
+		Mockito.when(customerRepository.findById(Mockito.anyLong())).thenReturn(optionalCustomer);
+		Mockito.when(customerToCustomerDTOConverter.convert(Mockito.any())).thenReturn(customerDTOList);
+		List<CustomerDTO> customerDTOListResponse = bikestoresEntity.updateCustomer("1", customer);
+		assertNotNull(customerDTOListResponse);
+	}
+
+	@Test
+	void updateCustomerEmptyTest() {
+		Customer customer = buildCustomer();
+		Optional<Customer> optionalCustomer = Optional.ofNullable(null);
+		List<CustomerDTO> customerDTOList = buildCustomerDTOList();
+		Mockito.when(customerRepository.findById(Mockito.anyLong())).thenReturn(optionalCustomer);
+		Mockito.when(customerToCustomerDTOConverter.convert(Mockito.any())).thenReturn(customerDTOList);
+		List<CustomerDTO> customerDTOListResponse = bikestoresEntity.updateCustomer("1", customer);
+		assertNotNull(customerDTOListResponse);
+	}
+
+	@Test
+	void partialUpdateCustomerTest() {
+		Customer customer = buildCustomer();
+		Optional<Customer> optionalCustomer = Optional.ofNullable(customer);
+		List<CustomerDTO> customerDTOList = buildCustomerDTOList();
+		Mockito.when(customerRepository.findById(Mockito.anyLong())).thenReturn(optionalCustomer);
+		Mockito.when(customerToCustomerDTOConverter.convert(Mockito.any())).thenReturn(customerDTOList);
+		List<CustomerDTO> customerDTOListResponse = bikestoresEntity.partialUpdateCustomer("1", "Luca", "Nocella");
+		assertNotNull(customerDTOListResponse);
+	}
+
+	@Test
+	void partialUpdateCustomerEmptyTest() {
+		Optional<Customer> optionalCustomer = Optional.ofNullable(null);
+		List<CustomerDTO> customerDTOList = buildCustomerDTOList();
+		Mockito.when(customerRepository.findById(Mockito.anyLong())).thenReturn(optionalCustomer);
+		Mockito.when(customerToCustomerDTOConverter.convert(Mockito.any())).thenReturn(customerDTOList);
+		List<CustomerDTO> customerDTOListResponse = bikestoresEntity.partialUpdateCustomer("1", "Luca", "Nocella");
+		assertNotNull(customerDTOListResponse);
+	}
+
+	private Customer buildCustomer() {
 		Customer customer = new Customer();
+		customer.setFirstName("Luca");
+		customer.setLastName("Nocella");
+		return customer;
+	}
+
+	private List<Customer> buildCustomerList() {
+		Customer customer = buildCustomer();
+		List<Customer> customerList = new ArrayList<>();
 		customerList.add(customer);
 		return customerList;
 	}

@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.example.bikestores.config.resttemplate.RestTemplateClient;
 import com.example.bikestores.exception.CustomerNotFoundException;
 import com.example.bikestores.exception.ParameterNotFoundException;
 import com.example.bikestores.service.entity.converter.CustomerDTOToCustomerConverter;
@@ -36,8 +35,7 @@ public class BikestoresBusiness {
 	private ValidateCustomer validateCustomer;
 
 	@Autowired
-	private RestTemplateClient restTemplateClient;
-
+	private RestTemplate restTemplate;
 
 	Logger logger = LoggerFactory.getLogger(BikestoresBusiness.class);
 
@@ -46,7 +44,6 @@ public class BikestoresBusiness {
 	}
 
 	public List<CustomerDTO> readCustomerConsumingRest() {
-		RestTemplate restTemplate = restTemplateClient.restTemplate();
 		ResponseEntity<CustomerDTO[]> customerConsumedArrayResponse =  restTemplate.getForEntity(
 				"http://localhost:8080/bikestores/test/customers", CustomerDTO[].class);
 		List<CustomerDTO> customerDTOList = new ArrayList<>();

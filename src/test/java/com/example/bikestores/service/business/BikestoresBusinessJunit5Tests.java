@@ -21,7 +21,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.client.RestTemplate;
 
-import com.example.bikestores.config.resttemplate.RestTemplateClient;
 import com.example.bikestores.exception.CustomerNotFoundException;
 import com.example.bikestores.exception.ParameterNotFoundException;
 import com.example.bikestores.service.entity.converter.CustomerDTOToCustomerConverter;
@@ -43,11 +42,8 @@ class BikestoresBusinessJunit5Tests {
 	private BikestoresEntity bikestoresEntity;
 
 	@MockBean
-	private RestTemplateClient restTemplateClient;
-
-	@MockBean
 	private RestTemplate restTemplate;
-	
+
 	@MockBean
 	private CustomerDTOToCustomerConverter customerDTOToCustomerConverter;
 
@@ -62,14 +58,15 @@ class BikestoresBusinessJunit5Tests {
 		assertNotNull(customerDTOListResponse);
 	}
 
-		@Test
-		void readCustomerConsumingRestTests() {
-			List<CustomerDTO> customerDTOList = buildCustomerDTOList();
-			ResponseEntity<Object> response = new ResponseEntity(CustomerDTO[].class, HttpStatus.OK);
-	        Mockito.when(restTemplate.getForEntity(Mockito.any(), Mockito.any())).thenReturn(response);
-	        List<CustomerDTO> customerDTOListResponse = bikestoresBusiness.readCustomerConsumingRest();
-	        assertNotNull(customerDTOListResponse);
-		}
+	@Test
+	void readCustomerConsumingRestTests() {
+		List<CustomerDTO> customerDTOList = buildCustomerDTOList();
+		CustomerDTO[] customerDTOArray = customerDTOList.toArray(new CustomerDTO[0]);
+		ResponseEntity<CustomerDTO[]> response = new ResponseEntity(customerDTOArray, HttpStatus.OK);
+		Mockito.when(restTemplate.getForEntity("http://localhost:8080/bikestores/test/customers", CustomerDTO[].class)).thenReturn(response);
+		List<CustomerDTO> customerDTOListResponse = bikestoresBusiness.readCustomerConsumingRest();
+		assertNotNull(customerDTOListResponse);
+	}
 
 	@Test
 	void readCustomersByIdTest() {	
@@ -258,6 +255,7 @@ class BikestoresBusinessJunit5Tests {
 		CustomerDTO customerDTO = new CustomerDTO();
 		customerDTO.setFirstName("Luca");
 		customerDTO.setLastName("Nocella");
+		customerDTO.setCity("Naples");
 		customerDTOList.add(customerDTO);
 		return customerDTOList;
 	}
