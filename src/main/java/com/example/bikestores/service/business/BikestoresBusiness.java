@@ -13,12 +13,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.example.bikestores.config.resttemplate.RestTemplateClient;
 import com.example.bikestores.exception.CustomerNotFoundException;
+import com.example.bikestores.exception.ParameterNotFoundException;
 import com.example.bikestores.service.entity.converter.CustomerDTOToCustomerConverter;
 import com.example.bikestores.service.entity.impl.BikestoresEntity;
 import com.example.bikestores.to.CustomerDTO;
 import com.example.bikestores.util.BikestoresConstants;
+import com.example.bikestores.util.ValidatorUtil;
 import com.example.bikestores.validator.ValidateCustomer;
 
 @Service
@@ -34,8 +35,7 @@ public class BikestoresBusiness {
 	private ValidateCustomer validateCustomer;
 
 	@Autowired
-	private RestTemplateClient restTemplateClient;
-
+	private RestTemplate restTemplate;
 
 	Logger logger = LoggerFactory.getLogger(BikestoresBusiness.class);
 
@@ -44,7 +44,6 @@ public class BikestoresBusiness {
 	}
 
 	public List<CustomerDTO> readCustomerConsumingRest() {
-		RestTemplate restTemplate = restTemplateClient.restTemplate();
 		ResponseEntity<CustomerDTO[]> customerConsumedArrayResponse =  restTemplate.getForEntity(
 				"http://localhost:8080/bikestores/test/customers", CustomerDTO[].class);
 		List<CustomerDTO> customerDTOList = new ArrayList<>();
@@ -57,6 +56,9 @@ public class BikestoresBusiness {
 	}
 
 	public List<CustomerDTO> readCustomersById(String id) {
+		if (Boolean.FALSE.equals(ValidatorUtil.exist(id))) {
+			throw new ParameterNotFoundException(BikestoresConstants.CUSTOMER_ID_PARAMETER_IS_EMPTY_OR_NULL);
+		}
 		List<CustomerDTO> listCostumers = bikestoresEntity.readCustomersById(id);
 		if (listCostumers.isEmpty()){
 			throw new CustomerNotFoundException(BikestoresConstants.CUSTOMER_NOT_FOUND);
@@ -70,6 +72,9 @@ public class BikestoresBusiness {
 	}
 
 	public void deleteCustomer(String id) {
+		if (Boolean.FALSE.equals(ValidatorUtil.exist(id))) {
+			throw new ParameterNotFoundException(BikestoresConstants.CUSTOMER_ID_PARAMETER_IS_EMPTY_OR_NULL);
+		}
 		List<CustomerDTO> listCostumers = bikestoresEntity.readCustomersById(id);
 		if (listCostumers.isEmpty()){
 			throw new CustomerNotFoundException(BikestoresConstants.CUSTOMER_NOT_FOUND);
@@ -78,6 +83,9 @@ public class BikestoresBusiness {
 	}
 
 	public List<CustomerDTO> updateCustomer(String id, @Valid CustomerDTO customerDTO) {
+		if (Boolean.FALSE.equals(ValidatorUtil.exist(id))) {
+			throw new ParameterNotFoundException(BikestoresConstants.CUSTOMER_ID_PARAMETER_IS_EMPTY_OR_NULL);
+		}
 		validateCustomer.validate(customerDTO);
 		List<CustomerDTO> listCostumers = bikestoresEntity.readCustomersById(id);
 		if (listCostumers.isEmpty()){
@@ -88,12 +96,20 @@ public class BikestoresBusiness {
 	}
 
 	public List<CustomerDTO> partialUpdateCustomer(String id, String name, String surname) {
+		if (Boolean.FALSE.equals(ValidatorUtil.exist(id))) {
+			throw new ParameterNotFoundException(BikestoresConstants.CUSTOMER_ID_PARAMETER_IS_EMPTY_OR_NULL);
+		}
+		if (Boolean.FALSE.equals(ValidatorUtil.exist(name))) {
+			throw new ParameterNotFoundException(BikestoresConstants.FIRST_NAME_IS_EMPTY_OR_NULL);
+		}
+		if (Boolean.FALSE.equals(ValidatorUtil.exist(surname))) {
+			throw new ParameterNotFoundException(BikestoresConstants.LAST_NAME_IS_EMPTY_OR_NULL);
+		}
 		List<CustomerDTO> listCostumers = bikestoresEntity.readCustomersById(id);
 		if (listCostumers.isEmpty()){
 			throw new CustomerNotFoundException(BikestoresConstants.CUSTOMER_NOT_FOUND);
 		}
 		return bikestoresEntity.partialUpdateCustomer(id, name, surname);
-
 	}
 
 }
