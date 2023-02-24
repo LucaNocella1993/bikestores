@@ -22,7 +22,7 @@ You can download source and binaries from [Github page](https://github.com/LucaN
 
 ### Release Note
 + 1.0.0
-    + Initial commit of the first stable project on the repository
+    + Initial commit of the first stable project on the repository 
     
 
 ### N.B.
